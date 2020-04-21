@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "chestgui",
+  "version": "${version}",
+  "name": "ChestGui API",
+  "description": "Simple API for creating chest GUIs",
+  "authors": [
+    "Simon"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/chestgui/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.simon.chestgui.Main"
+    ],
+    "client": [],
+    "server": []
+  },
+  "mixins": [
+    "chestgui.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}
