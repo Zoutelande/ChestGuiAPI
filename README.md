@@ -7,5 +7,5 @@ repositories {
 	}
 }
 dependencies {
-  modImplementation group: 'me.simon.chestgui', name: 'ChestGuiAPI', version: '1.0-SNAPSHOT'
-}```
+  modImplementation group: 'me.simon.chestgui', name: 'ChestGuiAPI', version: '1.1.0'
+}
