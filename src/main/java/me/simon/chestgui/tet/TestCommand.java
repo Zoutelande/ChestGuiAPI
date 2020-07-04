@@ -3,11 +3,10 @@ package me.simon.chestgui.tet;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import me.simon.chestgui.API.ChestGui;
-import me.simon.chestgui.API.parts.ChestGuiButton;
+import me.simon.chestgui.API.ChestGuiBuilder;
+import me.simon.chestgui.API.parts.button.ButtonBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.MessageType;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.command.CommandManager;
@@ -38,18 +37,20 @@ public class TestCommand {
         }
         private static NamedScreenHandlerFactory openGui(ServerPlayerEntity playerEntity) {
             NamedScreenHandlerFactory factory =
-                    new ChestGui()
+                    new ChestGuiBuilder()
                             .setName(new LiteralText("Cool GUI yee haw").formatted(Formatting.RED))
                             .setRowSize(2)
-                            .addButton(new ChestGuiButton(8, new ItemStack(Items.GREEN_WOOL))
+                            .addButton(new ButtonBuilder(8, new ItemStack(Items.GREEN_WOOL))
                                     .setName(
                                             new LiteralText("Cool nice green wool").formatted(Formatting.GREEN))
                                     .setAction(SlotActionType.PICKUP,
-                                            ()-> playerEntity.sendMessage(new LiteralText("bruh"), false)))
+                                            ()-> playerEntity.sendMessage(new LiteralText("bruh"), false))
+                                    .build())
                             .addButton(
-                                    new ChestGuiButton( 0, new ItemStack(Items.RED_WOOL))
+                                    new ButtonBuilder( 0, new ItemStack(Items.RED_WOOL))
                                             .setAction(SlotActionType.QUICK_MOVE, playerEntity::kill)
-                                            .setName(new LiteralText("RED MEANS DEATH").formatted(Formatting.RED)))
+                                            .setName(new LiteralText("RED MEANS DEATH").formatted(Formatting.RED))
+                                            .build())
                             .build();
             return factory;
         }

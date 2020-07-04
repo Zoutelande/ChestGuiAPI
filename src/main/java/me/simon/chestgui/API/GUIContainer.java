@@ -1,6 +1,6 @@
 package me.simon.chestgui.API;
 
-import me.simon.chestgui.API.parts.ChestGuiButton;
+import me.simon.chestgui.API.parts.button.ChestGuiButton;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;

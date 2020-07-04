@@ -1,6 +1,6 @@
 package me.simon.chestgui.API;
 
-import me.simon.chestgui.API.parts.ChestGuiButton;
+import me.simon.chestgui.API.parts.button.ChestGuiButton;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -14,14 +14,14 @@ import net.minecraft.text.Text;
 
 import java.util.HashMap;
 
-public class ChestGui {
+public class ChestGuiBuilder {
     private NamedScreenHandlerFactory SNCF;
     private HashMap<Integer, ChestGuiButton> buttonList;
     private int rowSize;
     private Text containerName;
     private ItemStack background;
 
-    public ChestGui() {
+    public ChestGuiBuilder() {
         this.rowSize = 3;
         this.containerName = new LiteralText("Unnamed GUI");
         this.buttonList = new HashMap<>();
@@ -32,12 +32,12 @@ public class ChestGui {
         this.background = backgroundStack;
     }
 
-    public ChestGui addButton(ChestGuiButton button){
-        this.buttonList.put(button.slotId, button);
+    public ChestGuiBuilder addButton(ChestGuiButton button){
+        this.buttonList.put(button.settings.slotId, button);
         return this;
     }
 
-    public ChestGui setRowSize(int rowSize){
+    public ChestGuiBuilder setRowSize(int rowSize){
         if(rowSize > 6 || rowSize < 1) return null;
         else{
             this.rowSize = rowSize;
@@ -45,18 +45,17 @@ public class ChestGui {
         }
     }
 
-    public ChestGui setName(Text name){
+    public ChestGuiBuilder setName(Text name){
         this.containerName = name;
         return this;
     }
 
-    public ChestGui setBackground(ItemStack item){
+    public ChestGuiBuilder setBackground(ItemStack item){
         this.background = item;
         return this;
     }
 
     public NamedScreenHandlerFactory build(){
-
         this.SNCF = new NamedScreenHandlerFactory() {
             @Override
             public Text getDisplayName() {
@@ -104,6 +103,6 @@ public class ChestGui {
         for(int i = 0; i < container.slots.size() - 36; i++){
             container.setStackInSlot(i, this.background);
         }
-        this.buttonList.forEach((integer, button) -> container.setStackInSlot(button.slotId, button.displayItem));
+        this.buttonList.forEach((integer, button) -> container.setStackInSlot(button.settings.slotId, button.settings.displayItem));
     }
 }
