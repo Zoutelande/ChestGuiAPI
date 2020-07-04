@@ -1,28 +1,31 @@
 package me.simon.chestgui.API;
 
 import me.simon.chestgui.API.parts.ChestGuiButton;
-import net.minecraft.container.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.HashMap;
 
-public class GUIContainer extends Container {
+public class GUIContainer extends ScreenHandler {
     private final Inventory inventory;
     private final int rows;
     private final HashMap<Integer, ChestGuiButton> buttonList;
 
-    protected GUIContainer(ContainerType<?> type, int syncId, PlayerInventory playerInventory, Inventory inventory, int rows, HashMap<Integer, ChestGuiButton> buttonList) {
+    protected GUIContainer(ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, Inventory inventory, int rows, HashMap<Integer, ChestGuiButton> buttonList) {
         super(type, syncId);
-        checkContainerSize(inventory, rows * 9);
+        checkSize(inventory, rows * 9);
         this.inventory = inventory;
         this.rows = rows;
         this.buttonList = buttonList;
-        inventory.onInvOpen(playerInventory.player);
+        inventory.onOpen(playerInventory.player);
         int i = (this.rows - 4) * 18;
         int n;
         int m;
@@ -53,7 +56,7 @@ public class GUIContainer extends Container {
             button.runAction(actionType);
         }
         this.inventory.markDirty();
-        ((ServerPlayerEntity) playerEntity).server.getPlayerManager().sendToAll(new InventoryS2CPacket(syncId, playerEntity.container.getStacks()));
+        ((ServerPlayerEntity) playerEntity).server.getPlayerManager().sendToAll(new InventoryS2CPacket(syncId, playerEntity.currentScreenHandler.getStacks()));
         this.sendContentUpdates();
         return ItemStack.EMPTY;
     }

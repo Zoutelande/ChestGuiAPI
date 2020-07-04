@@ -1,7 +1,7 @@
 package me.simon.chestgui.API.parts;
 
-import net.minecraft.container.SlotActionType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 

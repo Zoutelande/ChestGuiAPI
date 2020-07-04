@@ -1,19 +1,21 @@
 package me.simon.chestgui.API;
 
 import me.simon.chestgui.API.parts.ChestGuiButton;
-import net.minecraft.container.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.BasicInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 import java.util.HashMap;
 
 public class ChestGui {
-    private NameableContainerFactory SNCF;
+    private NamedScreenHandlerFactory SNCF;
     private HashMap<Integer, ChestGuiButton> buttonList;
     private int rowSize;
     private Text containerName;
@@ -53,16 +55,16 @@ public class ChestGui {
         return this;
     }
 
-    public NameableContainerFactory build(){
+    public NamedScreenHandlerFactory build(){
 
-        this.SNCF = new NameableContainerFactory() {
+        this.SNCF = new NamedScreenHandlerFactory() {
             @Override
             public Text getDisplayName() {
                 return containerName;
             }
 
             @Override
-            public Container createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+            public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
                 return getContainer(syncId, inv, buttonList);
             }
         };
@@ -73,32 +75,32 @@ public class ChestGui {
         GUIContainer output;
         switch (rowSize){
             case 1:
-                output = new GUIContainer(ContainerType.GENERIC_9X1, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X1, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
                 break;
             case 2:
-                output = new GUIContainer(ContainerType.GENERIC_9X2, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X2, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
                 break;
             case 3:
-                output = new GUIContainer(ContainerType.GENERIC_9X3, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X3, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
                 break;
             case 4:
-                output = new GUIContainer(ContainerType.GENERIC_9X4, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X4, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
                 break;
             case 5:
-                output = new GUIContainer(ContainerType.GENERIC_9X5, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X5, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
                 break;
             case 6:
-                output = new GUIContainer(ContainerType.GENERIC_9X6, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X6, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
                 break;
             default:
-                output = new GUIContainer(ContainerType.GENERIC_9X3, syncId, inventory, new BasicInventory(9 * rowSize), rowSize, buttonList);
+                output = new GUIContainer(ScreenHandlerType.GENERIC_9X3, syncId, inventory, new SimpleInventory(9 * rowSize), rowSize, buttonList);
             break;
         }
         buildInventory(output);
         return output;
     }
 
-    private void buildInventory(Container container){
+    private void buildInventory(ScreenHandler container){
         for(int i = 0; i < container.slots.size() - 36; i++){
             container.setStackInSlot(i, this.background);
         }
