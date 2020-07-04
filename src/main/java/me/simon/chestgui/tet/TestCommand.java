@@ -19,6 +19,14 @@ import net.minecraft.util.Formatting;
 public class TestCommand {
         public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
             dispatcher.register(CommandManager.literal("testGui")
+                    .requires(src -> {
+                        try {
+                            return src.getPlayer().hasPermissionLevel(5);
+                        } catch (CommandSyntaxException e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    })
                     .executes(TestCommand::testGui)
             );
         }
